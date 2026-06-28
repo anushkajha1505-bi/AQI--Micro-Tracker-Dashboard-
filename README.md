@@ -151,6 +151,6 @@ No npm, no Webpack, no build step.
 
 ---
 
-## 📬 Contact
+## Contact
 
 **Anushka Jha** — [anushkajha1505@gmail.com](mailto:anushkajha1505@gmail.com) | [LinkedIn](https://linkedin.com/in/anushka-jha-810319313)
