@@ -1,5 +1,4 @@
 // app.js — AQI Micro-Tracker Dashboard
-// Author: Anushka Jha | github.com/Anu-1505/aqi-micro-tracker
 
 const AQI_COLORS = {
   "Good":           "#2ecc71",
