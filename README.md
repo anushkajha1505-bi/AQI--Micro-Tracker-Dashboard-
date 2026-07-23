@@ -149,6 +149,8 @@ No npm, no Webpack, no build step.
 - Export chart as PNG button
 - Auto-refresh every 6 hours using a cron job
 
+  https://pm25-trends.emergent.host/?utm_source=share
+
 ---
 
 ## Contact
