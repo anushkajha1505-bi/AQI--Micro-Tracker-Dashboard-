@@ -16,7 +16,7 @@ let charts = {};
 // ─── Load Data ────────────────────────────────────────────────────────────────
 async function loadData() {
   try {
-    const res = await fetch("../data/processed/aqi_processed.json");
+    const res = await fetch("/api/aqi");
     aqi_data = await res.json();
     init();
   } catch (err) {
