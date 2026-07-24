@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AQI Micro-Tracker Dashboard</title>
+
+    <link rel="stylesheet" href="style.css">
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body>
+
+<div class="container">
+
+    <!-- Sidebar -->
+
+    <aside class="sidebar">
+
+        <h2>AQI Tracker</h2>
+
+        <ul>
+
+            <li class="active">Dashboard</li>
+            <li>Statistics</li>
+            <li>Reports</li>
+            <li>About</li>
+
+        </ul>
+
+    </aside>
+
+
+    <!-- Main Content -->
+
+    <main class="main-content">
+
+        <header>
+
+            <div>
+
+                <h1>Air Quality Index Dashboard</h1>
+
+                <p>Real-Time & Historical AQI Monitoring</p>
+
+            </div>
+
+            <select id="citySelect">
+
+                <option>Delhi</option>
+                <option>Mumbai</option>
+                <option>Kolkata</option>
+                <option>Bengaluru</option>
+                <option>Hyderabad</option>
+                <option>Chennai</option>
+                <option>Ahmedabad</option>
+                <option>Jaipur</option>
+                <option>Lucknow</option>
+                <option>Patna</option>
+
+            </select>
+
+        </header>
+
+
+        <!-- AQI Banner -->
+
+        <section class="aqi-banner">
+
+            <div>
+
+                <h2>Current AQI</h2>
+
+                <h1 id="aqiValue">--</h1>
+
+            </div>
+
+            <div>
+
+                <h3 id="aqiCategory">Loading...</h3>
+
+                <p id="aqiDescription">
+                    Fetching latest air quality...
+                </p>
+
+            </div>
+
+        </section>
+
+
+        <!-- Stats -->
+
+        <section class="stats-grid">
+
+            <div class="card">
+
+                <h3>PM2.5</h3>
+
+                <h2 id="pm25Value">--</h2>
+
+            </div>
+
+            <div class="card">
+
+                <h3>PM10</h3>
+
+                <h2 id="pm10Value">--</h2>
+
+            </div>
+
+            <div class="card">
+
+                <h3>CO</h3>
+
+                <h2 id="coValue">--</h2>
+
+            </div>
+
+            <div class="card">
+
+                <h3>NO₂</h3>
+
+                <h2 id="no2Value">--</h2>
+
+            </div>
+
+        </section>
+
+
+        <!-- Charts -->
+
+        <section class="chart-grid">
+
+            <div class="chart-card">
+
+                <h2>PM2.5 Trend</h2>
+
+                <canvas id="lineChart"></canvas>
+
+            </div>
+
+            <div class="chart-card">
+
+                <h2>City AQI Comparison</h2>
+
+                <canvas id="barChart"></canvas>
+
+            </div>
+
+            <div class="chart-card full-width">
+
+                <h2>Pollutant Distribution</h2>
+
+                <canvas id="doughnutChart"></canvas>
+
+            </div>
+
+        </section>
+
+
+        <!-- Footer -->
+
+        <footer>
+
+            <p>
+
+                AQI Micro-Tracker Dashboard |
+                Powered by Open-Meteo API |
+                Developed by Anushka Jha
+
+            </p>
+
+        </footer>
+
+    </main>
+
+</div>
+
+<script src="app.js"></script>
+
+</body>
+
+</html>
