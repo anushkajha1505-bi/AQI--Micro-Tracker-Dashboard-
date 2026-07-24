@@ -13,146 +13,289 @@ An interactive, browser-based dashboard that fetches real-time and historical Ai
 Air quality is a serious public health concern across Indian cities, but the available tools are either too technical or not mobile-friendly. I wanted to build something that anyone could open in a browser, with clean charts showing real pollution data — and use it as a learning project to practice the full pipeline from raw API data → cleaned dataset → live chart.
 
 ---
+# 🌍 AQI Micro-Tracker Dashboard
 
-## Project Structure
+<div align="center">
+
+![Python](https://img.shields.io/badge/Python-3.12-blue?style=for-the-badge&logo=python)
+![Flask](https://img.shields.io/badge/Flask-Web%20Framework-black?style=for-the-badge&logo=flask)
+![HTML5](https://img.shields.io/badge/HTML-5-orange?style=for-the-badge&logo=html5)
+![CSS3](https://img.shields.io/badge/CSS-3-blue?style=for-the-badge&logo=css3)
+![JavaScript](https://img.shields.io/badge/JavaScript-ES6-yellow?style=for-the-badge&logo=javascript)
+![Chart.js](https://img.shields.io/badge/Chart.js-Visualization-red?style=for-the-badge&logo=chartdotjs)
+![License](https://img.shields.io/badge/License-MIT-green?style=for-the-badge)
+
+**A real-time Air Quality Index (AQI) dashboard that fetches air quality data, processes pollutant information, and visualizes environmental trends through interactive charts.**
+
+**Developed by Anushka Jha**
+
+</div>
+
+---
+
+# 📌 Overview
+
+AQI Micro-Tracker Dashboard is a data visualization project that enables users to monitor air quality across multiple Indian cities.
+
+The application collects AQI data from a public API, processes pollutant measurements using Python, and presents them through an interactive dashboard built with HTML, CSS, JavaScript, Flask, and Chart.js.
+
+This project demonstrates the integration of data engineering, backend development, and frontend visualization into a single analytics application.
+
+---
+
+# ✨ Features
+
+- 🌍 Monitor AQI across multiple Indian cities
+- 📊 Interactive dashboards powered by Chart.js
+- 📈 PM2.5 historical trend visualization
+- 🏙 City-wise AQI comparison
+- 🥧 Pollutant distribution chart
+- ⚡ Flask REST API backend
+- 📱 Fully responsive interface
+- ☁ Ready for Render deployment
+
+---
+
+# 🖼 Dashboard Preview
+
+## Home Dashboard
+
+> Add your screenshot here
 
 ```
-aqi-micro-tracker/
-│
-├── data_prep/
-│   ├── fetch_aqi_data.py          # Pulls data from Open-Meteo API for multiple cities
-│   ├── clean_aqi_data.py          # Cleans, normalizes, fills missing values
-│   └── cities_config.json         # City names, lat/lon coordinates
-│
-├── data/
-│   ├── raw/                       # Raw API responses (JSON)
-│   └── processed/
-│       └── aqi_processed.json     # Cleaned data fed into the dashboard
+images/dashboard.png
+```
+
+Example:
+
+```markdown
+![Dashboard](images/dashboard.png)
+```
+
+---
+
+## Charts
+
+- PM2.5 Trend
+- AQI Comparison
+- Pollutant Distribution
+
+(Add screenshots after deployment.)
+
+---
+
+# 🛠 Tech Stack
+
+## Frontend
+
+- HTML5
+- CSS3
+- JavaScript (ES6)
+- Chart.js
+
+## Backend
+
+- Flask
+- Python
+
+## Data Processing
+
+- Pandas
+- NumPy
+- Requests
+
+## Deployment
+
+- Render
+- GitHub
+
+---
+
+# 📂 Project Structure
+
+```text
+AQI-Micro-Tracker-Dashboard/
 │
 ├── dashboard/
-│   ├── index.html                 # Main dashboard (all-in-one HTML file)
-│   ├── style.css                  # Dashboard styling
-│   └── app.js                     # Chart.js visualizations + data loading
+│   ├── index.html
+│   ├── style.css
+│   └── app.js
 │
-├── requirements.txt               # Python deps for data prep only
-└── README.md
+├── app.py
+├── fetch_aqi_data.py
+├── clean_aqi_data.py
+│
+├── requirements.txt
+├── Procfile
+├── runtime.txt
+├── render.yaml
+│
+├── README.md
+├── API.md
+├── DEPLOYMENT.md
+├── LICENSE
+└── .gitignore
 ```
 
 ---
 
-## Data Source
+# ⚙ Installation
 
-**API:** [Open-Meteo Air Quality API](https://open-meteo.com/en/docs/air-quality-api)  
-**Free, no API key required.**  
-**Pollutants tracked:** PM2.5, PM10, CO, NO2, Ozone
-
-**Cities included:**
-Delhi, Mumbai, Kolkata, Bengaluru, Hyderabad, Chennai, Patna, Lucknow, Jaipur, Ahmedabad
-
----
-
-## Setup & Running
-
-### Step 1 — Fetch & Clean Data (Python)
+Clone the repository
 
 ```bash
-# Install Python dependencies
+git clone https://github.com/YOUR_USERNAME/AQI-Micro-Tracker-Dashboard.git
+```
+
+Move into the project directory
+
+```bash
+cd AQI-Micro-Tracker-Dashboard
+```
+
+Install dependencies
+
+```bash
 pip install -r requirements.txt
-
-# Fetch data for all cities (saves to data/raw/)
-python data_prep/fetch_aqi_data.py
-
-# Clean and normalize (saves to data/processed/aqi_processed.json)
-python data_prep/clean_aqi_data.py
 ```
 
-### Step 2 — Open Dashboard
-
-Just open `dashboard/index.html` in any browser. No server needed.
+Run the Flask application
 
 ```bash
-# On Mac/Linux
-open dashboard/index.html
-
-# Or simply double-click index.html in your file explorer
+python app.py
 ```
 
-> The dashboard reads from `../data/processed/aqi_processed.json` by default.
-
----
-
-## Requirements (Python only)
+Open your browser
 
 ```
-requests==2.31.0
-pandas==2.1.4
-numpy==1.26.3
+http://localhost:5000
 ```
 
-No npm, no Webpack, no build step.
+---
+
+# 🚀 Deployment (Render)
+
+### Build Command
+
+```bash
+pip install -r requirements.txt
+```
+
+### Start Command
+
+```bash
+gunicorn app:app
+```
 
 ---
 
-## What the Dashboard Shows
+# 🌐 API Endpoint
 
-| Chart | Description |
-|-------|-------------|
-| **Line Chart** | PM2.5 trend over last 7 days for a selected city |
-| **Bar Chart** | City-wise AQI comparison (today's snapshot) |
-| **Doughnut Chart** | Pollutant contribution breakdown |
-| **AQI Category Banner** | Good / Moderate / Unhealthy / Hazardous label with color |
+## Get AQI Data
 
----
+```
+GET /api/aqi
+```
 
-## Data Cleaning Steps (clean_aqi_data.py)
-
-- **Missing values:** Forward-fill gaps (API sometimes returns null for certain hours)
-- **Normalization:** AQI is computed from raw pollutant values using India's CPCB formula
-- **Outlier handling:** Values beyond 3σ flagged and capped — common in API glitches
-- **Format:** Output JSON structure is `{ city: { dates: [...], pm25: [...], aqi: [...] } }`
-
----
-
-## Sample Output
+### Sample Response
 
 ```json
 {
-  "Delhi": {
-    "dates": ["2026-05-01", "2026-05-02", "..."],
-    "pm25": [87.3, 91.1, 76.4, "..."],
-    "aqi": [162, 170, 144, "..."],
-    "category": "Unhealthy"
-  },
-  "Bengaluru": {
-    "dates": ["2026-05-01", "..."],
-    "pm25": [23.1, 19.8, "..."],
-    "aqi": [76, 68, "..."],
-    "category": "Moderate"
-  }
+  "city": "Delhi",
+  "aqi": 142,
+  "category": "Moderate",
+  "pm25": 48.2,
+  "pm10": 76.5,
+  "co": 0.8,
+  "no2": 22.4
 }
 ```
 
 ---
 
-## Known Limitations
+# 🏗 System Architecture
 
-- Data is not live in the browser — you need to re-run the Python scripts to refresh
-- Historical data limited to 7 days on the free API tier
-- AQI calculation is approximate (using CPCB breakpoints, not official real-time government data)
+```text
+            Public AQI API
+                    │
+                    ▼
+        fetch_aqi_data.py
+                    │
+                    ▼
+       clean_aqi_data.py
+                    │
+                    ▼
+        Processed AQI Dataset
+                    │
+                    ▼
+              Flask Backend
+              (app.py)
+                    │
+         REST API (/api/aqi)
+                    │
+                    ▼
+HTML + CSS + JavaScript + Chart.js
+                    │
+                    ▼
+      Interactive AQI Dashboard
+```
 
 ---
 
-## Possible Extensions
+# 📊 Visualizations
 
-- Add a Python Flask/FastAPI backend to serve live data
-- Add Leaflet.js India map with color-coded AQI dots
-- Export chart as PNG button
-- Auto-refresh every 6 hours using a cron job
-
-  https://pm25-trends.emergent.host/?utm_source=share
+- AQI Status Card
+- PM2.5 Trend Line Chart
+- City Comparison Bar Chart
+- Pollutant Distribution Doughnut Chart
 
 ---
 
-## Contact
+# 📈 Future Improvements
 
-**Anushka Jha** — [anushkajha1505@gmail.com](mailto:anushkajha1505@gmail.com) | [LinkedIn](https://linkedin.com/in/anushka-jha-810319313)
+- User authentication
+- Live AQI updates
+- Weather integration
+- Interactive maps
+- AQI forecasting using Machine Learning
+- Dark mode
+- Download reports as PDF
+
+---
+
+# 👩‍💻 Developer
+
+**Anushka Jha**
+
+Computer Science Engineering Student
+
+- GitHub: https://github.com/anushkajha1505-bi
+- LinkedIn: https://www.linkedin.com/in/anushka-jha-810319313/
+
+---
+
+# 📄 License
+
+This project is licensed under the MIT License.
+
+See the LICENSE file for more information.
+
+---
+
+# ⭐ Support
+
+If you found this project helpful:
+
+⭐ Star the repository
+
+🍴 Fork the project
+
+🛠 Contribute through Pull Requests
+
+---
+
+<div align="center">
+
+Made with ❤️ using Python, Flask, JavaScript and Chart.js
+
+</div>
