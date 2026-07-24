@@ -15,72 +15,50 @@ Air quality is a serious public health concern across Indian cities, but the ava
 ---
 # 🌍 AQI Micro-Tracker Dashboard
 
-<div align="center">
+<p align="center">
 
-![Python](https://img.shields.io/badge/Python-3.12-blue?style=for-the-badge&logo=python)
-![Flask](https://img.shields.io/badge/Flask-Web%20Framework-black?style=for-the-badge&logo=flask)
-![HTML5](https://img.shields.io/badge/HTML-5-orange?style=for-the-badge&logo=html5)
-![CSS3](https://img.shields.io/badge/CSS-3-blue?style=for-the-badge&logo=css3)
-![JavaScript](https://img.shields.io/badge/JavaScript-ES6-yellow?style=for-the-badge&logo=javascript)
-![Chart.js](https://img.shields.io/badge/Chart.js-Visualization-red?style=for-the-badge&logo=chartdotjs)
-![License](https://img.shields.io/badge/License-MIT-green?style=for-the-badge)
+![Python](https://img.shields.io/badge/Python-3.11-blue?logo=python)
+![Flask](https://img.shields.io/badge/Flask-Backend-black?logo=flask)
+![HTML5](https://img.shields.io/badge/HTML5-Frontend-orange?logo=html5)
+![CSS3](https://img.shields.io/badge/CSS3-Styling-blue?logo=css3)
+![JavaScript](https://img.shields.io/badge/JavaScript-ES6-yellow?logo=javascript)
+![Chart.js](https://img.shields.io/badge/Chart.js-Visualization-red?logo=chartdotjs)
+![Render](https://img.shields.io/badge/Deployment-Render-46E3B7?logo=render)
+![License](https://img.shields.io/badge/License-MIT-green)
 
-**A real-time Air Quality Index (AQI) dashboard that fetches air quality data, processes pollutant information, and visualizes environmental trends through interactive charts.**
-
-**Developed by Anushka Jha**
-
-</div>
+</p>
 
 ---
 
-# 📌 Overview
+# 📖 Overview
 
-AQI Micro-Tracker Dashboard is a data visualization project that enables users to monitor air quality across multiple Indian cities.
+AQI Micro-Tracker Dashboard is an interactive web application that visualizes Air Quality Index (AQI) data for multiple Indian cities.
 
-The application collects AQI data from a public API, processes pollutant measurements using Python, and presents them through an interactive dashboard built with HTML, CSS, JavaScript, Flask, and Chart.js.
+The dashboard provides:
 
-This project demonstrates the integration of data engineering, backend development, and frontend visualization into a single analytics application.
+- 📊 Interactive charts
+- 🌍 City-wise AQI comparison
+- 📈 AQI trend analysis
+- 🌫 Pollutant distribution
+- 🚦 Air quality category indicators
+- ⚡ Responsive user interface
+
+The project demonstrates full-stack web development using **Python, Flask, JavaScript, Chart.js, HTML, and CSS**.
 
 ---
 
 # ✨ Features
 
-- 🌍 Monitor AQI across multiple Indian cities
-- 📊 Interactive dashboards powered by Chart.js
-- 📈 PM2.5 historical trend visualization
-- 🏙 City-wise AQI comparison
-- 🥧 Pollutant distribution chart
-- ⚡ Flask REST API backend
-- 📱 Fully responsive interface
-- ☁ Ready for Render deployment
-
----
-
-# 🖼 Dashboard Preview
-
-## Home Dashboard
-
-> Add your screenshot here
-
-```
-images/dashboard.png
-```
-
-Example:
-
-```markdown
-![Dashboard](images/dashboard.png)
-```
-
----
-
-## Charts
-
-- PM2.5 Trend
-- AQI Comparison
-- Pollutant Distribution
-
-(Add screenshots after deployment.)
+- Live AQI Dashboard
+- Multiple Indian Cities
+- PM2.5 & PM10 Monitoring
+- NO₂ & CO Tracking
+- AQI Trend Charts
+- Pollutant Distribution Chart
+- City Comparison Graph
+- Responsive Dashboard
+- Flask REST API
+- Render Deployment Ready
 
 ---
 
@@ -95,8 +73,8 @@ Example:
 
 ## Backend
 
-- Flask
 - Python
+- Flask
 
 ## Data Processing
 
@@ -106,8 +84,8 @@ Example:
 
 ## Deployment
 
-- Render
 - GitHub
+- Render
 
 ---
 
@@ -120,6 +98,10 @@ AQI-Micro-Tracker-Dashboard/
 │   ├── index.html
 │   ├── style.css
 │   └── app.js
+│
+├── data/
+│   └── processed/
+│       └── aqi_processed.json
 │
 ├── app.py
 ├── fetch_aqi_data.py
@@ -139,18 +121,70 @@ AQI-Micro-Tracker-Dashboard/
 
 ---
 
+# 🏗 System Architecture
+
+```
+            AQI Data Source
+                    │
+                    ▼
+         fetch_aqi_data.py
+                    │
+                    ▼
+        clean_aqi_data.py
+                    │
+                    ▼
+data/processed/aqi_processed.json
+                    │
+                    ▼
+             Flask Backend
+               (app.py)
+                    │
+          REST API (/api/aqi)
+                    │
+                    ▼
+      HTML + CSS + JavaScript
+             (Chart.js)
+                    │
+                    ▼
+      Interactive AQI Dashboard
+```
+
+---
+
+# 📸 Dashboard Preview
+
+Add screenshots inside an **images/** folder.
+
+```text
+images/
+│
+├── dashboard.png
+├── charts.png
+└── architecture.png
+```
+
+Example:
+
+```markdown
+![Dashboard](images/dashboard.png)
+
+![Charts](images/charts.png)
+```
+
+---
+
 # ⚙ Installation
 
 Clone the repository
 
 ```bash
-git clone https://github.com/YOUR_USERNAME/AQI-Micro-Tracker-Dashboard.git
+git clone https://github.com/anushkajha1505-bi/AQI--Micro-Tracker-Dashboard-.git
 ```
 
-Move into the project directory
+Move into the project
 
 ```bash
-cd AQI-Micro-Tracker-Dashboard
+cd AQI--Micro-Tracker-Dashboard-
 ```
 
 Install dependencies
@@ -159,13 +193,13 @@ Install dependencies
 pip install -r requirements.txt
 ```
 
-Run the Flask application
+Run the application
 
 ```bash
 python app.py
 ```
 
-Open your browser
+Open
 
 ```
 http://localhost:5000
@@ -175,102 +209,100 @@ http://localhost:5000
 
 # 🚀 Deployment (Render)
 
-### Build Command
+## Build Command
 
 ```bash
 pip install -r requirements.txt
 ```
 
-### Start Command
+## Start Command
 
 ```bash
 gunicorn app:app
 ```
 
+After deployment, your application will be available at:
+
+```
+https://your-render-app.onrender.com
+```
+
 ---
 
-# 🌐 API Endpoint
+# 📡 API Endpoint
 
-## Get AQI Data
+### Get AQI Data
 
 ```
 GET /api/aqi
 ```
 
-### Sample Response
+Example Response
 
 ```json
 {
-  "city": "Delhi",
-  "aqi": 142,
-  "category": "Moderate",
-  "pm25": 48.2,
-  "pm10": 76.5,
-  "co": 0.8,
-  "no2": 22.4
+  "Delhi": {
+    "latest_aqi": 182,
+    "category": "Poor",
+    "aqi": [165,170,175,180,182]
+  }
 }
 ```
 
 ---
 
-# 🏗 System Architecture
-
-```text
-            Public AQI API
-                    │
-                    ▼
-        fetch_aqi_data.py
-                    │
-                    ▼
-       clean_aqi_data.py
-                    │
-                    ▼
-        Processed AQI Dataset
-                    │
-                    ▼
-              Flask Backend
-              (app.py)
-                    │
-         REST API (/api/aqi)
-                    │
-                    ▼
-HTML + CSS + JavaScript + Chart.js
-                    │
-                    ▼
-      Interactive AQI Dashboard
-```
-
----
-
-# 📊 Visualizations
-
-- AQI Status Card
-- PM2.5 Trend Line Chart
-- City Comparison Bar Chart
-- Pollutant Distribution Doughnut Chart
-
----
-
 # 📈 Future Improvements
 
-- User authentication
-- Live AQI updates
-- Weather integration
-- Interactive maps
-- AQI forecasting using Machine Learning
-- Dark mode
-- Download reports as PDF
+- Real-time AQI API Integration
+- Historical Data Storage
+- User Authentication
+- Weather Integration
+- AQI Forecasting
+- Download Reports
+- Dark Mode
+- Mobile Application
 
 ---
 
-# 👩‍💻 Developer
+# 🤝 Contributing
+
+Contributions are welcome.
+
+1. Fork the repository
+
+2. Create a feature branch
+
+```bash
+git checkout -b feature-name
+```
+
+3. Commit changes
+
+```bash
+git commit -m "Added feature"
+```
+
+4. Push changes
+
+```bash
+git push origin feature-name
+```
+
+5. Open a Pull Request
+
+---
+
+# 👩‍💻 Author
 
 **Anushka Jha**
 
 Computer Science Engineering Student
 
-- GitHub: https://github.com/anushkajha1505-bi
-- LinkedIn: https://www.linkedin.com/in/anushka-jha-810319313/
+GitHub:
+https://github.com/anushkajha1505-bi
+
+LinkedIn:
+https://www.linkedin.com/in/anushka-jha-810319313/
 
 ---
 
@@ -278,24 +310,6 @@ Computer Science Engineering Student
 
 This project is licensed under the MIT License.
 
-See the LICENSE file for more information.
-
 ---
 
-# ⭐ Support
-
-If you found this project helpful:
-
-⭐ Star the repository
-
-🍴 Fork the project
-
-🛠 Contribute through Pull Requests
-
----
-
-<div align="center">
-
-Made with ❤️ using Python, Flask, JavaScript and Chart.js
-
-</div>
+⭐ If you found this project helpful, consider giving it a Star on GitHub!
