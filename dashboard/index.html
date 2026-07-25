@@ -6,179 +6,445 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AQI Micro-Tracker Dashboard</title>
 
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- CSS -->
     <link rel="stylesheet" href="style.css">
 
+    <!-- Chart.js -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 
 <body>
 
-<div class="container">
+<div class="app-container">
 
     <!-- Sidebar -->
-
     <aside class="sidebar">
+        <div class="brand">
+            <div class="logo-badge">🍃</div>
+            <div class="brand-text">
+                <h2>AQI Tracker</h2>
+                <span>Micro Dashboard</span>
+            </div>
+        </div>
 
-        <h2>AQI Tracker</h2>
+        <nav class="nav-menu">
+            <ul>
+                <li class="nav-item active" data-tab="dashboard-view">
+                    <span class="nav-icon">📊</span>
+                    <span class="nav-label">Dashboard</span>
+                </li>
+                <li class="nav-item" data-tab="statistics-view">
+                    <span class="nav-icon">📈</span>
+                    <span class="nav-label">Statistics</span>
+                </li>
+                <li class="nav-item" data-tab="reports-view">
+                    <span class="nav-icon">📄</span>
+                    <span class="nav-label">Reports</span>
+                </li>
+                <li class="nav-item" data-tab="about-view">
+                    <span class="nav-icon">ℹ️</span>
+                    <span class="nav-label">About</span>
+                </li>
+            </ul>
+        </nav>
 
-        <ul>
-
-            <li class="active">Dashboard</li>
-            <li>Statistics</li>
-            <li>Reports</li>
-            <li>About</li>
-
-        </ul>
-
+        <div class="sidebar-footer">
+            <div class="sync-status">
+                <span class="status-dot"></span>
+                <span>Open-Meteo Live API</span>
+            </div>
+        </div>
     </aside>
 
-
-    <!-- Main Content -->
-
+    <!-- Main Content Area -->
     <main class="main-content">
 
-        <header>
-
-            <div>
-
-                <h1>Air Quality Index Dashboard</h1>
-
-                <p>Real-Time & Historical AQI Monitoring</p>
-
+        <!-- Top Header Bar -->
+        <header class="top-header">
+            <div class="header-titles">
+                <h1 id="pageTitle">Air Quality Index Dashboard</h1>
+                <p id="pageSubTitle">Real-Time & Historical Air Quality Monitoring Across Major Cities</p>
             </div>
 
-            <select id="citySelect">
-
-                <option>Delhi</option>
-                <option>Mumbai</option>
-                <option>Kolkata</option>
-                <option>Bengaluru</option>
-                <option>Hyderabad</option>
-                <option>Chennai</option>
-                <option>Ahmedabad</option>
-                <option>Jaipur</option>
-                <option>Lucknow</option>
-                <option>Patna</option>
-
-            </select>
-
+            <div class="header-controls">
+                <div class="select-wrapper">
+                    <label for="citySelect" class="select-label">Select City:</label>
+                    <select id="citySelect" aria-label="Select City">
+                        <!-- Dynamically populated from JS -->
+                    </select>
+                </div>
+            </div>
         </header>
 
+        <!-- VIEW 1: DASHBOARD -->
+        <section id="dashboard-view" class="tab-view active">
 
-        <!-- AQI Banner -->
+            <!-- Hero AQI Banner -->
+            <div class="aqi-hero-banner" id="aqiBanner">
+                <div class="banner-main">
+                    <div class="banner-badge-row">
+                        <span id="aqiBadge" class="aqi-badge">Category</span>
+                        <span class="live-pill"><span class="pulse-ring"></span> LIVE</span>
+                    </div>
+                    <div class="aqi-number-container">
+                        <h1 id="aqiValue">--</h1>
+                        <div class="aqi-unit-tag">AQI Index</div>
+                    </div>
+                    <h3 id="aqiCategory">Loading AQI data...</h3>
+                </div>
 
-        <section class="aqi-banner" id="aqiBanner">
-
-            <div>
-
-                <h2>Current AQI</h2>
-
-                <h1 id="aqiValue">--</h1>
-
+                <div class="banner-side">
+                    <div class="advisory-box">
+                        <div class="advisory-title">
+                            <span class="advisory-icon">💡</span>
+                            <span>Health Advisory & Impact</span>
+                        </div>
+                        <p id="aqiDescription">Fetching latest air quality details...</p>
+                    </div>
+                    <div class="banner-footer-info">
+                        <span id="bannerCityName">City Monitoring</span> • Updated hourly from satellite & ground sensors
+                    </div>
+                </div>
             </div>
 
-            <div>
-
-                <h3 id="aqiCategory">Loading...</h3>
-
-                <p id="aqiDescription">
-                    Fetching latest air quality...
-                </p>
-
+            <!-- Key Pollutant Stat Cards Grid -->
+            <div class="section-title">
+                <h2>Key Air Pollutants</h2>
+                <span class="sub-tag">Concentration levels measured in µg/m³</span>
             </div>
 
+            <div class="stats-grid">
+                <div class="card stat-card">
+                    <div class="card-header">
+                        <span class="card-icon pm25-icon">🌫️</span>
+                        <h3>PM 2.5</h3>
+                    </div>
+                    <div class="card-value-box">
+                        <h2 id="pm25Value">--</h2>
+                        <span class="card-unit">µg/m³</span>
+                    </div>
+                    <div class="card-footer">
+                        <span id="pm25Status" class="stat-tag">--</span>
+                        <span class="info-tooltip" title="Fine particulate matter under 2.5 micrometers">ⓘ</span>
+                    </div>
+                </div>
+
+                <div class="card stat-card">
+                    <div class="card-header">
+                        <span class="card-icon pm10-icon">💨</span>
+                        <h3>PM 10</h3>
+                    </div>
+                    <div class="card-value-box">
+                        <h2 id="pm10Value">--</h2>
+                        <span class="card-unit">µg/m³</span>
+                    </div>
+                    <div class="card-footer">
+                        <span id="pm10Status" class="stat-tag">--</span>
+                        <span class="info-tooltip" title="Coarse particulate matter under 10 micrometers">ⓘ</span>
+                    </div>
+                </div>
+
+                <div class="card stat-card">
+                    <div class="card-header">
+                        <span class="card-icon co-icon">🚗</span>
+                        <h3>CO (Carbon Monoxide)</h3>
+                    </div>
+                    <div class="card-value-box">
+                        <h2 id="coValue">--</h2>
+                        <span class="card-unit">µg/m³</span>
+                    </div>
+                    <div class="card-footer">
+                        <span id="coStatus" class="stat-tag">--</span>
+                        <span class="info-tooltip" title="Gas produced by combustion engines">ⓘ</span>
+                    </div>
+                </div>
+
+                <div class="card stat-card">
+                    <div class="card-header">
+                        <span class="card-icon no2-icon">🏭</span>
+                        <h3>NO₂ (Nitrogen Dioxide)</h3>
+                    </div>
+                    <div class="card-value-box">
+                        <h2 id="no2Value">--</h2>
+                        <span class="card-unit">µg/m³</span>
+                    </div>
+                    <div class="card-footer">
+                        <span id="no2Status" class="stat-tag">--</span>
+                        <span class="info-tooltip" title="Emissions from vehicles and industrial plants">ⓘ</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Visual Charts Grid -->
+            <div class="section-title">
+                <h2>Visual Analytics</h2>
+                <span class="sub-tag">Interactive trends & cross-city metrics</span>
+            </div>
+
+            <div class="chart-grid">
+                <div class="chart-card">
+                    <div class="chart-header">
+                        <h3>7-Day PM2.5 & AQI Trend</h3>
+                        <span class="chart-badge">Historical Timeline</span>
+                    </div>
+                    <div class="chart-wrapper">
+                        <canvas id="pm25Chart"></canvas>
+                    </div>
+                </div>
+
+                <div class="chart-card">
+                    <div class="chart-header">
+                        <h3>National City AQI Comparison</h3>
+                        <span class="chart-badge">All Cities</span>
+                    </div>
+                    <div class="chart-wrapper">
+                        <canvas id="cityCompareChart"></canvas>
+                    </div>
+                </div>
+
+                <div class="chart-card full-width">
+                    <div class="chart-header">
+                        <h3>Pollutant Concentration Distribution</h3>
+                        <span class="chart-badge">Current Composition</span>
+                    </div>
+                    <div class="chart-wrapper doughnut-wrapper">
+                        <canvas id="pollutantChart"></canvas>
+                    </div>
+                </div>
+            </div>
         </section>
 
+        <!-- VIEW 2: STATISTICS -->
+        <section id="statistics-view" class="tab-view">
+            <div class="stats-overview-grid">
+                <div class="card overview-card danger">
+                    <span class="overview-icon">🔥</span>
+                    <div>
+                        <h4>Most Polluted City</h4>
+                        <h2 id="statHighestCity">--</h2>
+                        <p id="statHighestVal">AQI: --</p>
+                    </div>
+                </div>
 
-        <!-- Stats -->
+                <div class="card overview-card success">
+                    <span class="overview-icon">🌱</span>
+                    <div>
+                        <h4>Cleanest City</h4>
+                        <h2 id="statCleanestCity">--</h2>
+                        <p id="statCleanestVal">AQI: --</p>
+                    </div>
+                </div>
 
-        <section class="stats-grid">
+                <div class="card overview-card info">
+                    <span class="overview-icon">📊</span>
+                    <div>
+                        <h4>National Average AQI</h4>
+                        <h2 id="statNationalAvg">--</h2>
+                        <p>Across 10 Monitored Cities</p>
+                    </div>
+                </div>
 
-            <div class="card">
-
-                <h3>PM2.5</h3>
-
-                <h2 id="pm25Value">--</h2>
-
+                <div class="card overview-card warning">
+                    <span class="overview-icon">⚠️</span>
+                    <div>
+                        <h4>Primary Concern</h4>
+                        <h2>PM 2.5 & CO</h2>
+                        <p>Main Drivers of AQI</p>
+                    </div>
+                </div>
             </div>
 
-            <div class="card">
-
-                <h3>PM10</h3>
-
-                <h2 id="pm10Value">--</h2>
-
+            <div class="chart-card full-width mar-top">
+                <div class="chart-header">
+                    <h3>City AQI Rankings (Cleanest to Most Polluted)</h3>
+                    <span class="chart-badge">Comparative Bar Chart</span>
+                </div>
+                <div class="chart-wrapper">
+                    <canvas id="statsRankingChart"></canvas>
+                </div>
             </div>
 
-            <div class="card">
-
-                <h3>CO</h3>
-
-                <h2 id="coValue">--</h2>
-
+            <div class="table-card mar-top">
+                <div class="table-header">
+                    <h3>Comprehensive Air Quality Data Table</h3>
+                    <span>Real-time snapshot of all monitored metropolitan cities</span>
+                </div>
+                <div class="table-responsive">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>City</th>
+                                <th>AQI Index</th>
+                                <th>Category</th>
+                                <th>PM 2.5 (µg/m³)</th>
+                                <th>PM 10 (µg/m³)</th>
+                                <th>CO (µg/m³)</th>
+                                <th>NO₂ (µg/m³)</th>
+                                <th>Air Quality Health Rating</th>
+                            </tr>
+                        </thead>
+                        <tbody id="statsTableBody">
+                            <!-- Populated via JS -->
+                        </tbody>
+                    </table>
+                </div>
             </div>
-
-            <div class="card">
-
-                <h3>NO₂</h3>
-
-                <h2 id="no2Value">--</h2>
-
-            </div>
-
         </section>
 
-
-        <!-- Charts -->
-
-        <section class="chart-grid">
-
-            <div class="chart-card">
-
-                <h2>PM2.5 Trend</h2>
-
-              <canvas id="pm25Chart"></canvas>
-
+        <!-- VIEW 3: REPORTS -->
+        <section id="reports-view" class="tab-view">
+            <div class="report-top-bar card">
+                <div class="report-city-info">
+                    <span class="report-badge">Diagnostic Report</span>
+                    <h2 id="reportCityName">Delhi Air Quality Analysis</h2>
+                    <p id="reportDateRange">Generated on Real-Time Open-Meteo Environmental Feed</p>
+                </div>
+                <button class="btn btn-primary" onclick="window.print()">
+                    <span>🖨️</span> Print / Save PDF Report
+                </button>
             </div>
 
-            <div class="chart-card">
+            <div class="report-grid mar-top">
+                <div class="card report-card">
+                    <div class="card-header">
+                        <h3>🏥 Health Risk & Exposure Assessment</h3>
+                    </div>
+                    <div class="report-content" id="reportHealthContent">
+                        <!-- Populated via JS -->
+                    </div>
+                </div>
 
-                <h2>City AQI Comparison</h2>
-
-               <canvas id="cityCompareChart"></canvas>
-
-
+                <div class="card report-card">
+                    <div class="card-header">
+                        <h3>🛡️ Action Plan & Safety Guidelines</h3>
+                    </div>
+                    <div class="report-content" id="reportActionContent">
+                        <!-- Populated via JS -->
+                    </div>
+                </div>
             </div>
 
-            <div class="chart-card full-width">
-
-                <h2>Pollutant Distribution</h2>
-
-               <canvas id="pollutantChart"></canvas>
-
+            <div class="card report-full-card mar-top">
+                <div class="card-header">
+                    <h3>🔬 Detailed Pollutant Safety Standards Breakdown</h3>
+                </div>
+                <div class="table-responsive">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Pollutant</th>
+                                <th>Observed Value</th>
+                                <th>WHO Safe Benchmark</th>
+                                <th>CPCB Standard</th>
+                                <th>Health Risk Status</th>
+                            </tr>
+                        </thead>
+                        <tbody id="reportPollutantBody">
+                            <!-- Populated via JS -->
+                        </tbody>
+                    </table>
+                </div>
             </div>
-
         </section>
 
+        <!-- VIEW 4: ABOUT -->
+        <section id="about-view" class="tab-view">
+            <div class="about-grid">
+                <div class="card about-card primary-about">
+                    <h2>🍃 AQI Micro-Tracker Project</h2>
+                    <p>The <strong>AQI Micro-Tracker Dashboard</strong> is an advanced environmental monitoring application designed to provide citizens, researchers, and urban planners with real-time and historical air quality metrics across major Indian metropolitan areas.</p>
+                    <p>Using satellite-derived reanalysis data and ground station measurements from the <strong>Open-Meteo API</strong>, the dashboard tracks key airborne pollutants including <strong>PM2.5, PM10, Carbon Monoxide (CO), Nitrogen Dioxide (NO₂), and Ozone</strong>.</p>
+                </div>
+
+                <div class="card about-card">
+                    <h2>📊 Air Quality Index (AQI) Reference Scale</h2>
+                    <div class="table-responsive">
+                        <table class="data-table scale-table">
+                            <thead>
+                                <tr>
+                                    <th>AQI Range</th>
+                                    <th>Category</th>
+                                    <th>Color Code</th>
+                                    <th>Health Implications</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>0 - 50</td>
+                                    <td><span class="badge badge-good">Good</span></td>
+                                    <td>Green (#22c55e)</td>
+                                    <td>Minimal health impact. Clean air.</td>
+                                </tr>
+                                <tr>
+                                    <td>51 - 100</td>
+                                    <td><span class="badge badge-moderate">Moderate</span></td>
+                                    <td>Yellow (#eab308)</td>
+                                    <td>Acceptable air quality; minor concern for sensitive individuals.</td>
+                                </tr>
+                                <tr>
+                                    <td>101 - 150</td>
+                                    <td><span class="badge badge-poor">Poor</span></td>
+                                    <td>Orange (#f97316)</td>
+                                    <td>Breathing discomfort to sensitive people and children.</td>
+                                </tr>
+                                <tr>
+                                    <td>151 - 200</td>
+                                    <td><span class="badge badge-verypoor">Very Poor</span></td>
+                                    <td>Red (#ef4444)</td>
+                                    <td>Respiratory illness on prolonged exposure to most individuals.</td>
+                                </tr>
+                                <tr>
+                                    <td>201+</td>
+                                    <td><span class="badge badge-extremelypoor">Extremely Poor</span></td>
+                                    <td>Purple (#a855f7)</td>
+                                    <td>Severe respiratory impact; health warning for all residents.</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="card about-card full-width">
+                    <h2>🛠️ Technology Architecture & Developer Credits</h2>
+                    <div class="tech-stack-grid">
+                        <div class="tech-box">
+                            <h4>Backend Engine</h4>
+                            <p>Python 3, Flask Web Server, Pandas Data Aggregation, Requests HTTP Library.</p>
+                        </div>
+                        <div class="tech-box">
+                            <h4>Frontend Interface</h4>
+                            <p>Vanilla JavaScript (ES6+), Chart.js Visualizations, HTML5 Semantic Layout, CSS3 Design Tokens.</p>
+                        </div>
+                        <div class="tech-box">
+                            <h4>Data Provider</h4>
+                            <p>Open-Meteo Air Quality API (Hourly 7-Day Satellite & Ground Sensor Reanalysis).</p>
+                        </div>
+                        <div class="tech-box">
+                            <h4>Developer & Creator</h4>
+                            <p><strong>Anushka Jha</strong> — Lead Developer & Designer.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
 
         <!-- Footer -->
-
-        <footer>
-
+        <footer class="app-footer">
             <p>
-
-                AQI Micro-Tracker Dashboard |
-                Powered by Open-Meteo API |
-                Developed by Anushka Jha
-
+                <strong>AQI Micro-Tracker Dashboard</strong> | Powered by Open-Meteo Environmental API | Developed by Anushka Jha
             </p>
-
         </footer>
 
     </main>
 
 </div>
 
+<!-- JavaScript -->
 <script src="app.js"></script>
 
 </body>

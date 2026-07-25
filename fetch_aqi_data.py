@@ -47,6 +47,12 @@ PARAMS = {
 
 os.makedirs("data/raw", exist_ok=True)
 
+import sys
+
+# Configure stdout for utf-8 on Windows if needed
+if hasattr(sys.stdout, 'reconfigure'):
+    sys.stdout.reconfigure(encoding='utf-8')
+
 all_data = {}
 
 for city, coords in CITIES.items():
@@ -60,18 +66,18 @@ for city, coords in CITIES.items():
         all_data[city] = city_data
         
         # Save individual city file too
-        with open(f"data/raw/{city.lower()}_raw.json", "w") as f:
+        with open(f"data/raw/{city.lower()}_raw.json", "w", encoding="utf-8") as f:
             json.dump(city_data, f, indent=2)
-        print("✅")
+        print("[OK]")
     
     except requests.exceptions.RequestException as e:
-        print(f"❌ Failed — {e}")
+        print(f"[FAILED] — {e}")
         all_data[city] = None
 
 # Save combined raw file
-with open("data/raw/all_cities_raw.json", "w") as f:
+with open("data/raw/all_cities_raw.json", "w", encoding="utf-8") as f:
     json.dump(all_data, f, indent=2)
 
-print(f"\n✅ Done! Raw data saved to data/raw/")
+print(f"\n[OK] Done! Raw data saved to data/raw/")
 print(f"   Date range: {start_date} to {end_date}")
 print(f"   Cities fetched: {sum(1 for v in all_data.values() if v is not None)}/{len(CITIES)}")

@@ -13,6 +13,10 @@ import json
 import pandas as pd
 import numpy as np
 import os
+import sys
+
+if hasattr(sys.stdout, 'reconfigure'):
+    sys.stdout.reconfigure(encoding='utf-8')
 
 os.makedirs("data/processed", exist_ok=True)
 
@@ -28,7 +32,7 @@ def get_aqi_category(aqi_value):
     return "Extremely Poor"
 
 # Load raw data
-with open("data/raw/all_cities_raw.json", "r") as f:
+with open("data/raw/all_cities_raw.json", "r", encoding="utf-8") as f:
     raw = json.load(f)
 
 processed = {}
@@ -55,13 +59,14 @@ for city, data in raw.items():
     # ── Cleaning ──────────────────────────────────────────────────────────────
 
     # Forward fill gaps (API sometimes misses certain hours)
-    df.fillna(method="ffill", inplace=True)
-    df.fillna(method="bfill", inplace=True)  # Handle leading NaNs
+    df.ffill(inplace=True)
+    df.bfill(inplace=True)  # Handle leading NaNs
 
     # Cap outliers: values beyond mean + 3*std are likely sensor glitches
     for col in ["pm25", "pm10", "aqi"]:
         mean, std = df[col].mean(), df[col].std()
-        df[col] = df[col].clip(lower=0, upper=mean + 3*std)
+        if pd.notna(std) and std > 0:
+            df[col] = df[col].clip(lower=0, upper=mean + 3*std)
 
     # Round to 1 decimal
     for col in ["pm25", "pm10", "co", "no2", "ozone", "aqi"]:
@@ -78,24 +83,34 @@ for city, data in raw.items():
         "aqi":   "mean",
     }).round(1).reset_index()
 
-    latest_aqi = daily["aqi"].iloc[-1] if not daily.empty else None
+    latest_aqi = round(daily["aqi"].iloc[-1]) if not daily.empty else 0
+    latest_pm25 = round(daily["pm25"].iloc[-1], 1) if not daily.empty else 0
+    latest_pm10 = round(daily["pm10"].iloc[-1], 1) if not daily.empty else 0
+    latest_co = round(daily["co"].iloc[-1], 1) if not daily.empty else 0
+    latest_no2 = round(daily["no2"].iloc[-1], 1) if not daily.empty else 0
+    latest_ozone = round(daily["ozone"].iloc[-1], 1) if not daily.empty else 0
 
     processed[city] = {
-        "dates":    daily["date"].tolist(),
-        "pm25":     daily["pm25"].tolist(),
-        "pm10":     daily["pm10"].tolist(),
-        "co":       daily["co"].tolist(),
-        "no2":      daily["no2"].tolist(),
-        "ozone":    daily["ozone"].tolist(),
-        "aqi":      daily["aqi"].tolist(),
-        "latest_aqi": latest_aqi,
-        "category": get_aqi_category(latest_aqi),
+        "dates":        daily["date"].tolist(),
+        "pm25":         daily["pm25"].tolist(),
+        "pm10":         daily["pm10"].tolist(),
+        "co":           daily["co"].tolist(),
+        "no2":          daily["no2"].tolist(),
+        "ozone":        daily["ozone"].tolist(),
+        "aqi":          daily["aqi"].tolist(),
+        "latest_aqi":   latest_aqi,
+        "latest_pm25":  latest_pm25,
+        "latest_pm10":  latest_pm10,
+        "latest_co":    latest_co,
+        "latest_no2":   latest_no2,
+        "latest_ozone": latest_ozone,
+        "category":     get_aqi_category(latest_aqi),
     }
-    print(f"\ {city}: {len(daily)} days | Latest AQI: {latest_aqi} ({processed[city]['category']})")
+    print(f"  {city}: {len(daily)} days | Latest AQI: {latest_aqi} ({processed[city]['category']})")
 
 # Save
-with open("data/processed/aqi_processed.json", "w") as f:
+with open("data/processed/aqi_processed.json", "w", encoding="utf-8") as f:
     json.dump(processed, f, indent=2)
 
-print(f"\n Processed data saved → data/processed/aqi_processed.json")
+print(f"\n[OK] Processed data saved -> data/processed/aqi_processed.json")
 print(f"   Cities processed: {len(processed)}")

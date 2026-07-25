@@ -17,6 +17,10 @@ def aqi():
             return jsonify(json.load(f))
     return jsonify({"error":"AQI data not found. Generate data first."}),404
 
+@app.route("/data/processed/<path:filename>")
+def send_data(filename):
+    return send_from_directory("data/processed", filename)
+
 @app.route("/<path:path>")
 def static_proxy(path):
     return send_from_directory(app.static_folder,path)
